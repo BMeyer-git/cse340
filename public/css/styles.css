@@ -54,6 +54,10 @@ nav ul {
   margin:0;
 }
 
+li {
+  list-style-type:none;
+}
+
 nav ul li {
   text-align:center;
   font-size:1.5em;
@@ -61,6 +65,19 @@ nav ul li {
 
 nav ul li a{
   color:white;
+}
+
+/*Detail Styles*/
+#specifications {
+  list-style-type:circle;
+}
+
+#specifications h2, #specifications h3 {
+  text-align:center;
+}
+
+img {
+  max-width: 100%;
 }
 
 /*Hero Styles*/

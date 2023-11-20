@@ -68,11 +68,11 @@ nav ul li a{
 }
 
 /*Detail Styles*/
-#specifications {
+#detail-specifications li {
   list-style-type:circle;
 }
 
-#specifications h2, #specifications h3 {
+h2, h3 {
   text-align:center;
 }
 

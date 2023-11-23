@@ -151,6 +151,15 @@ section ul {
   border-width:2px;
 }
 
+/*Account styles*/
+.colorBox {
+  color:white;
+  background-color: black;
+  width:fit-content;
+  padding:1em;
+  border-radius: 1em;
+}
+
 /*Larger screen format*/
 @media screen and (min-width: 775px) {
 

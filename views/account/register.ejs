@@ -1,0 +1,28 @@
+<%# Content heading %>
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<%# Message block %>
+<%- messages() %>
+
+<%# Register body %>
+<%# Register body %>
+<div id="informationPanel">
+  <section class="colorBox">
+    <form action="/account/register" method="post">
+      <label for="account_firstname">First name:</label><br>
+      <input type="text" id="account_firstname" name="account_firstname" required><br>
+      <label for="account_lastname">Last name:</label><br>
+      <input type="text" id="account_lastname" name="account_lastname" required><br>
+      <label for="account_email">Email address:</label><br>
+      <input type="email" id="account_email" name="account_email" required><br>
+      <label for="account_password">Password:</label><br>
+      <input type="password" name="account_password" id="account_password" required><br>
+      <input type="submit" value="Register">
+    </form>
+  </section>
+  <p class="colorBox">Password must be at least 12 characters and consist of at least one capital letter, number, and special character</p><br>
+</div>

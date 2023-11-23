@@ -9,13 +9,16 @@
 <%- messages() %>
 
 <%# Login body %>
-<section class="colorBox">
-  <form action="">
-    <label for="email">Email:</label><br>
-    <input type="text" id="useremail" name="useremail"><br>
-    <label for="password">Password:</label><br>
-    <input type="password" name="userpass" id="userpass"><br>
-    <input type="submit" value="Login">
-  </form>
-  <p>No account? <a href="/account/register">Register here</a></p>
-</section>
+<div id="informationPanel">
+  <section class="colorBox">
+    <form action="">
+      <label for="account_email">Email:</label><br>
+      <input type="email" id="account_email" name="account_email" required><br>
+      <label for="account_password">Password:</label><br>
+      <input type="password" name="account_password" id="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br>
+      <input type="submit" value="Login">
+    </form>
+    <p>No account? <a href="/account/register">Register here</a></p>
+  </section>
+  <p class="colorBox">Password must be at least 12 characters and consist of at least one capital letter, number, and special character</p><br>
+</div>

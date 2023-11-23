@@ -16,6 +16,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+    errors: null,
   })
 }
 
@@ -25,13 +26,14 @@ invCont.buildByClassificationId = async function (req, res, next) {
 invCont.buildDetailByInvId = async function (req, res, next) {
   const inv_id = req.params.invId
   const vehicle = await invModel.getDetailByInvId(inv_id)
-  const grid = await utilities.buildDetailView(vehicle)
+  const detail = await utilities.buildDetailView(vehicle)
   let nav = await utilities.getNav()
   const vehicleName = vehicle.inv_make + " " + vehicle.inv_model
   res.render("./inventory/detail", {
     title: vehicleName,
     nav,
-    grid,
+    detail,
+    errors: null,
   })
 }
 

@@ -26,5 +26,16 @@ async function checkExistingEmail(account_email){
   }
 }
 
+/* *****************************
+*   Register new account
+* *************************** */
+async function loginAccount(account_email, account_password){
+  try {
+    console.log("Logged in")
+  } catch (error) {
+    return error.message
+  }
+}
 
-  module.exports = { registerAccount, checkExistingEmail };
+
+  module.exports = { registerAccount, checkExistingEmail, loginAccount };

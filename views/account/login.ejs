@@ -8,12 +8,21 @@
 <%# Message block %>
 <%- messages() %>
 
+<%# Error block %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
 <%# Login body %>
 <div id="informationPanel">
   <section class="colorBox">
-    <form action="">
-      <label for="account_email">Email:</label><br>
-      <input type="email" id="account_email" name="account_email" required><br>
+    <form id="loginForm" action="/account/login" method="post">
+      <label for="account_email">Email address:</label><br>
+      <input type="email" id="account_email" name="account_email" required value="<%= locals.account_email %>"><br>
       <label for="account_password">Password:</label><br>
       <input type="password" name="account_password" id="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br>
       <input type="submit" value="Login">

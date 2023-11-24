@@ -61,4 +61,34 @@ async function registerAccount(req, res) {
   }
 }
 
-module.exports = { buildLogin, buildRegistration, registerAccount }
+/* ****************************************
+*  Process Registration
+* *************************************** */
+async function loginAccount(req, res) {
+  let nav = await utilities.getNav()
+  const { account_email, account_password } = req.body
+
+  const loginResult = await accountModel.loginAccount(
+    account_email,
+    account_password
+  )
+
+  if (loginResult) {
+    req.flash(
+      "notice",
+      `Congratulations, you\'re logged in ${account_firstname}. Please ejoy your visit.`
+    )
+    res.status(201).render("account/login", {
+      title: "Login",
+      nav,
+    })
+  } else {
+    req.flash("notice", "Sorry, the login failed.")
+    res.status(501).render("account/login", {
+      title: "Login",
+      nav,
+    })
+  }
+}
+
+module.exports = { buildLogin, buildRegistration, registerAccount, loginAccount }

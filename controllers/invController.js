@@ -11,7 +11,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
   const data = await invModel.getInventoryByClassificationId(classification_id)
   const grid = await utilities.buildClassificationGrid(data)
   let nav = await utilities.getNav()
-  const className = data[0].classification_name
+  const className = await invModel.getClassificationName(classification_id)
   res.render("./inventory/classification", {
     title: className + " vehicles",
     nav,
@@ -35,6 +35,61 @@ invCont.buildDetailByInvId = async function (req, res, next) {
     detail,
     errors: null,
   })
+}
+
+/* ***************************
+ *  Build management view
+ * ************************** */
+invCont.buildManagement = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/management", {
+    title: "Vehicle Management",
+    nav,
+    errors: null,
+  })
+}
+
+/* ***************************
+ *  Build add classification view
+ * ************************** */
+invCont.buildAddClassification = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null,
+  })
+}
+
+/* ****************************************
+*  Process Registration
+* *************************************** */
+invCont.addClassification = async function (req, res) {
+  let nav = await utilities.getNav()
+  const { classification_name } = req.body
+
+  const classResult = await invModel.addClassification(
+    classification_name,
+  )
+
+  if (classResult) {
+    req.flash(
+      "notice",
+      `Success, you\'ve added ${classification_name} to the list.`
+    )
+    res.status(201).render("./inventory/management", {
+      title: "Vehicle Management",
+      nav,
+      errors:null
+    })
+  } else {
+    req.flash("notice", "Sorry, the classification addition failed.")
+    res.status(501).render("./inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      errors:null
+    })
+  }
 }
 
 module.exports = invCont

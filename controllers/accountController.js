@@ -92,7 +92,7 @@ async function loginAccount(req, res) {
   if (loginResult) {
     req.flash(
       "notice",
-      `Congratulations, you\'re logged in ${account_firstname}. Please ejoy your visit.`
+      `Congratulations, you\'re logged in ${account_email}. Please enjoy your visit.`
     )
     res.status(201).render("account/login", {
       title: "Login",

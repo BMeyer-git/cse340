@@ -27,11 +27,13 @@ async function checkExistingEmail(account_email){
 }
 
 /* *****************************
-*   Register new account
+*   log-in existing account
 * *************************** */
 async function loginAccount(account_email, account_password){
   try {
-    console.log("Logged in")
+    //put authentication code here in the future
+    console.log("Logged in" + account_email)
+    return 1
   } catch (error) {
     return error.message
   }

@@ -80,6 +80,10 @@ img {
   max-width: 100%;
 }
 
+#informationPanel img {
+  width:100%;
+}
+
 /*Hero Styles*/
 
 .hero {

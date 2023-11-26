@@ -21,4 +21,12 @@ router.post(
     '/add-classification',
     utilities.handleErrors(invController.addClassification));
 
+// Route for add vehicle view
+router.get("/add-inventory", invController.buildAddInventory);
+
+// Route to add a new vehicle
+router.post(
+    '/add-inventory',
+    utilities.handleErrors(invController.addInventory));
+
 module.exports = router;

@@ -1,4 +1,3 @@
-
 <%# Content heading %>
 <% if (title) { %>
     <h1><%= title %></h1>
@@ -11,12 +10,12 @@
 
 <%# Error block %>
 <% if (errors) { %>
-    <ul class="notice">
-   <% errors.array().forEach(error => { %>
-     <li><%= error.msg %></li>
-  <%  }) %>
-   </ul>
-  <% } %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
 
-<%# classification addition form display %>
+<%# add classification body %>
 <%- grid %>

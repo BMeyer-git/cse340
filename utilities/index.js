@@ -91,6 +91,45 @@ Util.buildDetailView = async function(vehicle){
   return grid
 }
 
+/* **************************************
+* Build the classification view
+* ************************************ */
+Util.getSelectClassification = async function(){
+  let grid
+  let data = await invModel.getClassifications()
+  grid = '<div id="informationPanel">'
+    grid += '<section class="colorBox">'
+      grid += '<label for="classification_id">Classification:</label><br>'
+      grid += '<select id="classification_id" name="classification_id" form="addInventory" required value="<%= locals.classification_id %>">'
+      data.rows.forEach((row) => {
+        grid += '<option value="' + row.classification_id + '">' + row.classification_name
+        grid += "</option>"
+      })
+      grid += "</select><br>"
+      grid += '<form action="/inv/add-inventory" method="post" id="addInventory">'
+        grid += '<label for="inv_make">Make:</label><br>'
+        grid += '<input type="text" id="inv_make" name="inv_make" required><br>'
+        grid += '<label for="inv_model">Model:</label><br>'
+        grid += '<input type="text" id="inv_model" name="inv_model" required><br>'
+        grid += '<label for="inv_year">Year:</label><br>'
+        grid += '<input type="text" id="inv_year" name="inv_year" required><br>'
+        grid += '<label for="inv_description">Description:</label><br>'
+        grid += '<input type="text" id="inv_description" name="inv_description" required><br>'
+        grid += '<label for="inv_price">Price:</label><br>'
+        grid += '<input type="text" id="inv_price" name="inv_price" required><br>'
+        grid += '<label for="inv_miles">Miles:</label><br>'
+        grid += '<input type="text" id="inv_miles" name="inv_miles" required><br>'
+        grid += '<label for="inv_color">Color:</label><br>'
+        grid += '<input type="text" id="inv_color" name="inv_color" required><br>'
+        grid += '<input type="submit" value="Add Vehicle">'
+      grid += '</form>'
+    grid += '</section>'
+    grid += '<p class="colorBox">Name must be alphabetic characters only</p><br>'
+  grid += '</div>'
+  return grid
+}
+
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

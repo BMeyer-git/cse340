@@ -22,7 +22,7 @@
   <section class="colorBox">
     <form action="/inv/add-classification" method="post">
       <label for="classification_name">Classification name:</label><br>
-      <input type="text" id="classification_name" name="classification_name" required value="<%= locals.classification_name %>"><br>
+      <input type="text" id="classification_name" name="classification_name" pattern="[a-zA-Z]+" required value="<%= locals.classification_name %>"><br>
       <input type="submit" value="Add Classification">
     </form>
   </section>

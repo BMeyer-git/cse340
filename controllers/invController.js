@@ -111,9 +111,10 @@ invCont.buildAddInventory = async function (req, res, next) {
 * *************************************** */
 invCont.addInventory = async function (req, res) {
   let nav = await utilities.getNav()
+  let grid = await utilities.getSelectClassification()
   const { inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color, classification_id } = req.body
   
-  const regResult = await invModel.addInventory(
+  const invResult = await invModel.addInventory(
     inv_make,
     inv_model,
     inv_year,
@@ -124,7 +125,7 @@ invCont.addInventory = async function (req, res) {
     classification_id
   )
   
-  if (regResult) {
+  if (invResult) {
     req.flash(
       "notice",
       `Congratulations, you\'ve added the ${inv_year} ${inv_make} ${inv_model} to the inventory.`
@@ -139,6 +140,7 @@ invCont.addInventory = async function (req, res) {
     res.status(501).render("inventory/add-inventory", {
       title: "Add Vehicle",
       nav,
+      grid,
       errors:null
     })
   }

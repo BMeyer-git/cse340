@@ -100,7 +100,7 @@ Util.getSelectClassification = async function(){
   grid = '<div id="informationPanel">'
     grid += '<section class="colorBox">'
       grid += '<label for="classification_id">Classification:</label><br>'
-      grid += '<select id="classification_id" name="classification_id" form="addInventory" required value="<%= locals.classification_id %>">'
+      grid += '<select id="classification_id" name="classification_id" form="addInventory" required>'
       data.rows.forEach((row) => {
         grid += '<option value="' + row.classification_id + '">' + row.classification_name
         grid += "</option>"
@@ -108,7 +108,7 @@ Util.getSelectClassification = async function(){
       grid += "</select><br>"
       grid += '<form action="/inv/add-inventory" method="post" id="addInventory">'
         grid += '<label for="inv_make">Make:</label><br>'
-        grid += '<input type="text" id="inv_make" name="inv_make" required><br>'
+        grid += '<input type="text" id="inv_make" name="inv_make" required value="<%= locals.classification_name %>"><br>'
         grid += '<label for="inv_model">Model:</label><br>'
         grid += '<input type="text" id="inv_model" name="inv_model" required><br>'
         grid += '<label for="inv_year">Year:</label><br>'

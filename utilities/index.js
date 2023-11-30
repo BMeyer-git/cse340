@@ -93,21 +93,27 @@ Util.buildDetailView = async function(vehicle){
   return grid
 }
 
+Util.getClassificationSelectList = async function(){
+  let classList
+  let data = await invModel.getClassifications()
+  classList = '<label for="classification_id">Classification:</label><br>'
+  classList += '<select id="classification_id" name="classification_id" form="addInventory" required>'
+  data.rows.forEach((row) => {
+    classList += '<option value="' + row.classification_id + '">' + row.classification_name
+    classList += "</option>"
+  })
+  classList += "</select><br>"
+  return classList
+}
+
 /* **************************************
 * Build the classification view
 * ************************************ */
-Util.getSelectClassification = async function(){
+Util.getAddInventory = async function(){
   let grid
-  let data = await invModel.getClassifications()
   grid = '<div id="informationPanel">'
     grid += '<section class="colorBox">'
-      grid += '<label for="classification_id">Classification:</label><br>'
-      grid += '<select id="classification_id" name="classification_id" form="addInventory" required>'
-      data.rows.forEach((row) => {
-        grid += '<option value="' + row.classification_id + '">' + row.classification_name
-        grid += "</option>"
-      })
-      grid += "</select><br>"
+      grid += await Util.getClassificationSelectList()
       grid += '<form action="/inv/add-inventory" method="post" id="addInventory">'
         grid += '<label for="inv_make">Make:</label><br>'
         grid += '<input type="text" id="inv_make" name="inv_make" required value="<%= locals.classification_name %>"><br>'

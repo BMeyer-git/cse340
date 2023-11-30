@@ -99,7 +99,7 @@ validate.inventoryRules = () => {
 validate.checkInventoryData = async (req, res, next) => {
   const { inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color, classification_id } = req.body
   let errors = []
-  let grid = await utilities.getSelectClassification()
+  let grid = await utilities.getAddInventory()
   errors = validationResult(req)
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()

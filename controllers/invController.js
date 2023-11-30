@@ -43,12 +43,10 @@ invCont.buildDetailByInvId = async function (req, res, next) {
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
 
-  const classificationSelect = await utilities.getSelectClassification()
 
   res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
-    classificationSelect,
     errors: null,
   })
 }
@@ -101,7 +99,7 @@ invCont.addClassification = async function (req, res) {
  * ************************** */
 invCont.buildAddInventory = async function (req, res, next) {
   let nav = await utilities.getNav()
-  let grid = await utilities.getSelectClassification()
+  let grid = await utilities.getAddInventory()
   res.render("./inventory/add-inventory", {
     title: "Add Vehicle",
     nav,
@@ -115,7 +113,6 @@ invCont.buildAddInventory = async function (req, res, next) {
 * *************************************** */
 invCont.addInventory = async function (req, res) {
   let nav = await utilities.getNav()
-  let grid = await utilities.getSelectClassification()
   const { inv_make, inv_model, inv_year, inv_description, inv_price, inv_miles, inv_color, classification_id } = req.body
   
   const invResult = await invModel.addInventory(

@@ -42,9 +42,13 @@ invCont.buildDetailByInvId = async function (req, res, next) {
  * ************************** */
 invCont.buildManagement = async function (req, res, next) {
   let nav = await utilities.getNav()
+
+  const classificationSelect = await utilities.getSelectClassification()
+
   res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
+    classificationSelect,
     errors: null,
   })
 }

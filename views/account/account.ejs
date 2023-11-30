@@ -1,0 +1,25 @@
+<%# Content heading %>
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<%# Message block %>
+<%- messages() %>
+
+<%# Error block %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<%# Register body %>
+<div id="informationPanel">
+  <section class="colorBox">
+    You're logged in.
+  </section>
+</div>

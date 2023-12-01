@@ -47,4 +47,12 @@ router.post(
     invValidate.checkInventoryData,
     utilities.handleErrors(invController.updateInventory))
 
+//Route for deleting inventory items
+router.get("/delete/:invId", utilities.handleErrors(invController.buildDeleteInventory));
+
+//Route for delete requests
+router.post(
+    "/delete/",
+    utilities.handleErrors(invController.deleteInventoryItem))
+
 module.exports = router;

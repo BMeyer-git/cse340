@@ -1,0 +1,40 @@
+<%# Content heading %>
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<%# Message block %>
+<%- messages() %>
+
+<%# Error block %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<%# delete inventory body %>
+<div id="informationPanel">
+  <section class="colorBox">
+    <%- classificationSelect %>
+    <form action="/inv/delete" method="post" id="deleteInventory">
+      <label for="inv_make">Make:</label><br>
+      <input type="text" id="inv_make" name="inv_make" required value=<%- inv_make %> readonly><br>
+      <label for="inv_model">Model:</label><br>
+      <input type="text" id="inv_model" name="inv_model" required value=<%- inv_model %> readonly><br>
+      <label for="inv_year">Year:</label><br>
+      <input type="text" id="inv_year" name="inv_year" required value=<%- inv_year %> readonly><br>
+      <label for="inv_price">Price:</label><br>
+      <input type="text" id="inv_price" name="inv_price" required value=<%- inv_price %> readonly><br>
+      <input type="submit" value="Delete Vehicle" id="submitButton">
+      <input type="hidden" name="inv_id"
+      <% if(locals.inv_id) { %> value=<%- locals.inv_id %>
+      <% } %>>
+    </form>
+  </section>
+  <p class="colorBox">Confirm Deletion? The delete is permanent.</p><br>
+</div>

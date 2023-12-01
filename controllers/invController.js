@@ -238,6 +238,37 @@ invCont.buildEditInventory = async function (req, res, next) {
   
 
   res.render("./inventory/edit-inventory", {
+    title: "Edit" + name,
+    nav,
+    classificationSelect: classificationSelect,
+    errors: null,
+    inv_id: data.inv_id,
+    inv_make: data.inv_make,
+    inv_model: data.inv_model,
+    inv_year: data.inv_year,
+    inv_description: data.inv_description,
+    inv_image: data.inv_image,
+    inv_thumbnail: data.inv_thumbnail,
+    inv_price: data.inv_price,
+    inv_miles: data.inv_miles,
+    inv_color: data.inv_color,
+    classification_id: data.classification_id
+  })
+}
+
+/* ***************************
+ *  Build delete confirmation view
+ * ************************** */
+invCont.buildDeleteInventory = async function (req, res, next) {
+  const inv_id = parseInt(req.params.invId)
+  let nav = await utilities.getNav()
+  const data = await invModel.getDetailByInvId(inv_id)
+  const classificationSelect = await utilities.getClassificationSelectList2(data.classification_id)
+  const name = `${data.inv_make} ${data.inv_model}`
+
+  
+
+  res.render("./inventory/delete-confirm", {
     title: name,
     nav,
     classificationSelect: classificationSelect,
@@ -254,6 +285,41 @@ invCont.buildEditInventory = async function (req, res, next) {
     inv_color: data.inv_color,
     classification_id: data.classification_id
   })
+}
+
+/* ****************************************
+*  Delete a vehicle
+* *************************************** */
+invCont.deleteInventoryItem = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const {inv_id} = req.body
+  const updateResult = await invModel.deleteInventoryItem(inv_id)
+
+  if (updateResult) {
+    req.flash("notice", `The vehicle was successfully deleted.`)
+    res.redirect("/inv/")
+  } else {
+    const classificationSelect = await utilities.getClassificationSelectList(classification_id)
+    const itemName = `${inv_make} ${inv_model}`
+    req.flash("notice", "Sorry, the delete failed.")
+    res.status(501).render("inventory/delete-inventory", {
+    title: "Delete " + itemName,
+    nav,
+    classificationSelect: classificationSelect,
+    errors: null,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+    })
+  }
 }
 
 module.exports = invCont

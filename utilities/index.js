@@ -107,7 +107,7 @@ Util.getClassificationSelectList = async function(){
 }
 
 /* **************************************
-* Build the classification view
+* Build the Inventory view
 * ************************************ */
 Util.getAddInventory = async function(){
   let grid

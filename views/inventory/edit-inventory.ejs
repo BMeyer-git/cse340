@@ -1,0 +1,43 @@
+<%# Content heading %>
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<%# Message block %>
+<%- messages() %>
+
+<%# Error block %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<%# edit inventory body %>
+<div id="informationPanel">
+  <section class="colorBox">
+    <%- classificationSelect %>
+    <form action="/inv/update" method="post" id="updateInventory">
+      <label for="inv_make">Make:</label><br>
+      <input type="text" id="inv_make" name="inv_make" required value=<%- inv_make %>><br>
+      <label for="inv_model">Model:</label><br>
+      <input type="text" id="inv_model" name="inv_model" required value=<%- inv_model %>><br>
+      <label for="inv_year">Year:</label><br>
+      <input type="text" id="inv_year" name="inv_year" required value=<%- inv_year %>><br>
+      <label for="inv_description">Description:</label><br>
+      <input type="text" id="inv_description" name="inv_description" required value=<%- inv_description %>><br>
+      <label for="inv_price">Price:</label><br>
+      <input type="text" id="inv_price" name="inv_price" required value=<%- inv_price %>><br>
+      <label for="inv_miles">Miles:</label><br>
+      <input type="text" id="inv_miles" name="inv_miles" required value=<%- inv_miles %>><br>
+      <label for="inv_color">Color:</label><br>
+      <input type="text" id="inv_color" name="inv_color" required value=<%- inv_color %>><br>
+      <input type="submit" value="Update Vehicle">
+    </form>
+  </section>
+  <p class="colorBox">Name must be alphabetic characters only</p><br>
+</div>

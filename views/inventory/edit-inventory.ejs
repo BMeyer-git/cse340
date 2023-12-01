@@ -36,8 +36,19 @@
       <input type="text" id="inv_miles" name="inv_miles" required value=<%- inv_miles %>><br>
       <label for="inv_color">Color:</label><br>
       <input type="text" id="inv_color" name="inv_color" required value=<%- inv_color %>><br>
-      <input type="submit" value="Update Vehicle">
+      <input type="submit" value="Update Vehicle" disabled id="submitButton">
+      <input type="hidden" name="inv_id"
+      <% if(locals.inv_id) { %> value=<%- locals.inv_id %>
+      <% } %>>
+      <input type="hidden" name="inv_image"
+      <% if(locals.inv_image) { %> value=<%- locals.inv_image %>
+      <% } %>>
+      <input type="hidden" name="inv_thumbnail"
+      <% if(locals.inv_thumbnail) { %> value=<%- locals.inv_thumbnail %>
+      <% } %>>
     </form>
   </section>
   <p class="colorBox">Name must be alphabetic characters only</p><br>
 </div>
+
+<script src="../../js/inv-update.js"></script>

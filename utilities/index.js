@@ -106,6 +106,20 @@ Util.getClassificationSelectList = async function(){
   return classList
 }
 
+// Different version for different form
+Util.getClassificationSelectList2 = async function(){
+  let classList
+  let data = await invModel.getClassifications()
+  classList = '<label for="classification_id">Classification:</label><br>'
+  classList += '<select id="classification_id" name="classification_id" form="updateInventory" required>'
+  data.rows.forEach((row) => {
+    classList += '<option value="' + row.classification_id + '">' + row.classification_name
+    classList += "</option>"
+  })
+  classList += "</select><br>"
+  return classList
+}
+
 /* **************************************
 * Build the Inventory view
 * ************************************ */

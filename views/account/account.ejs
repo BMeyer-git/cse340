@@ -19,7 +19,14 @@
 
 <%# Register body %>
 <div id="informationPanel">
+  <section>
+    <h2>Welcome <%- name %></h2>
+    <a href="/account/edit/">Update Account information</a>
+    <% if (accountType == "Employee" || accountType == "Admin") { %>
+      <h3><a href="/inv/">Inventory Management</a></h3>
+    <% } %>
+  </section>
   <section class="colorBox">
-    You're logged in.
+    Did you know that all the cars in our inventory are 100% real?
   </section>
 </div>

@@ -194,4 +194,25 @@ Util.checkLogin = (req, res, next) => {
   }
 }
 
+/* ************************
+ * Constructs the nav HTML unordered list
+ ************************** */
+Util.getHeader = async function (req, res, next) {
+  let header = '<span class="siteName">'
+  header += '<a href="/" title="Return to home page">CSE Motors</a>'
+  header += '</span>'
+  header += '<div id="tools">'
+  if (!req.cookies.jwt) {
+    header += '<a title="Click to log in" href="/account/login">My Account</a>'
+  }
+  else {
+    header += '<a title="Click to manage account" href="/account/">Welcome, '
+    header += res.locals.accountData.account_firstname
+    header += '</a><br>'
+    header += '<a title="Click to log out" href="/account/logout">Logout</a>'
+  }
+  header += '</div>'
+  return header
+}
+
 module.exports = Util

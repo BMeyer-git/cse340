@@ -34,6 +34,7 @@ async function buildRegistration(req, res, next) {
   })
 }
 
+
 /* ****************************************
 *  Deliver register view
 * *************************************** */
@@ -43,6 +44,7 @@ async function buildAccount(req, res, next) {
   let name = res.locals.accountData.account_firstname
   let accountType = res.locals.accountData.account_type
   let accountId = res.locals.accountData.account_id
+  let funds = await accountModel.getAccountWallet(accountId)
   res.render("account/account", {
     title: "Account Management",
     nav,
@@ -50,6 +52,7 @@ async function buildAccount(req, res, next) {
     name,
     accountType,
     accountId,
+    funds,
     errors: null,
   })
 }
@@ -183,6 +186,7 @@ async function updateAccount(req, res) {
     const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
     res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
     let header = await utilities.getHeader(req, res)
+    let funds = res.locals.accountData.account_wallet
     req.flash(
       "notice",
       `Congratulations, you\'ve updated ${account_firstname}. Please enjoy your stay.`
@@ -192,6 +196,7 @@ async function updateAccount(req, res) {
       nav,
       header,
       name,
+      funds,
       accountType,
       errors:null
     })
@@ -239,6 +244,7 @@ async function updatePassword(req, res) {
     account_id
   )
   
+  let funds = res.locals.accountData.account_wallet
   let name = account_firstname
   let accountType = "Client"
   if (passwordResult) {
@@ -251,6 +257,7 @@ async function updatePassword(req, res) {
       nav,
       header,
       name,
+      funds,
       accountType,
       errors:null
     })

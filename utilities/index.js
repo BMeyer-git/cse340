@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const accountModel = require("../models/account-model")
 const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -76,6 +77,7 @@ Util.buildDetailView = async function(vehicle){
     grid += '</h2>'
     grid += '<h3>Price: $' + new Intl.NumberFormat('en-US').format(vehicle.inv_price)
     grid += '</h3>'
+    grid += '<p>' + vehicle.inv_description + '</p>'
     grid += '<ul id="detail-specifications">'
     grid += '<li>Make: ' + vehicle.inv_make + '</li>'
     grid += '<li>Model: ' + vehicle.inv_model + '</li>'
@@ -85,6 +87,9 @@ Util.buildDetailView = async function(vehicle){
     grid += '<li>Miles: '
     + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</li>' + '</li>'
     grid += '</ul>'
+    grid +=  '<a href="../../inv/buy/'+ vehicle.inv_id
+    + '" title="Purchase ' + vehicle.inv_make + ' '+ vehicle.inv_model
+    + '">Own the ' + vehicle.inv_make + ' '+ vehicle.inv_model + ' now!' + '</a>'
     grid += '</div>'
     grid += '</div>'
   } else { 
@@ -206,6 +211,9 @@ Util.getHeader = async function (req, res, next) {
     header += '<a title="Click to log in" href="/account/login">My Account</a>'
   }
   else {
+    let accountId = res.locals.accountData.account_id
+    let funds = await accountModel.getAccountWallet(accountId)
+    header += '<p>Balance: $' + funds + '</p>'
     header += '<a title="Click to manage account" href="/account/">Welcome, '
     header += res.locals.accountData.account_firstname
     header += '</a><br>'
@@ -213,6 +221,48 @@ Util.getHeader = async function (req, res, next) {
   }
   header += '</div>'
   return header
+}
+
+/* **************************************
+* Build the detail view HTML
+* ************************************ */
+Util.buildBuyView = async function(vehicle, user_id){
+  let buy
+  if(vehicle){
+    buy = '<div id="informationPanel">'
+    buy +=  '<img src="' + vehicle.inv_thumbnail 
+    +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+    +' on CSE Motors" />'
+    buy += '<div class="specifications">'
+    buy += '<hr/>'
+    buy += '<h2>' 
+    + vehicle.inv_year + ' ' + vehicle.inv_make + ' ' + vehicle.inv_model + ' Specifications'
+    buy += '</h2>'
+    buy += '<h3>Price: $' + new Intl.NumberFormat('en-US').format(vehicle.inv_price)
+    buy += '</h3>'
+    buy += '<p>' + vehicle.inv_description + '</p>'
+    buy += '<ul id="detail-specifications">'
+    buy += '<li>Make: ' + vehicle.inv_make + '</li>'
+    buy += '<li>Model: ' + vehicle.inv_model + '</li>'
+    buy += '<li>Year: ' + vehicle.inv_year + '</li>'
+    buy += '<li>Price: $'
+    + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</li>'
+    buy += '<li>Miles: '
+    + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</li>' + '</li>'
+    buy += '</ul>'
+    buy += '<form action="/inv/buy" method="post" id="buy">'
+      buy += '<input type="hidden" name="inv_id"'
+      buy += 'value="' + vehicle.inv_id + '">'
+      buy += '<input type="hidden" name="account_id"'
+      buy += 'value="' + user_id + '">'
+      buy += '<input type="submit" value="Purchase Vehicle">'
+    buy += '</form>'
+    buy += '</div>'
+    buy += '</div>'
+  } else { 
+    buy += '<p class="notice">Sorry, no matching vehicle could be found.</p>'
+  }
+  return buy
 }
 
 module.exports = Util

@@ -45,7 +45,7 @@ async function loginAccount(account_email, account_password){
 async function getAccountByEmail (account_email) {
   try {
     const result = await pool.query(
-      'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1',
+      'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password, account_wallet FROM account WHERE account_email = $1',
       [account_email])
     return result.rows[0]
   } catch (error) {
@@ -87,4 +87,19 @@ async function updatePassword(account_password, account_id){
   }
 }
 
-  module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, updatePassword };
+/* *****************************
+*   Get Wallet balance
+* *************************** */
+async function getAccountWallet(account_id) {
+  try {
+    const result = await pool.query(
+      'SELECT account_wallet FROM account WHERE account_id = $1',
+      [account_id])
+    return result.rows[0].account_wallet
+  } catch (error) {
+    return new Error("No matching id found")
+  }
+}
+
+
+  module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, updateAccount, updatePassword, getAccountWallet };

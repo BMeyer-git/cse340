@@ -60,4 +60,10 @@ router.post(
     auth.isEmployee,
     utilities.handleErrors(invController.deleteInventoryItem))
 
+// Route to build buy page by inv id
+router.get("/buy/:invId", utilities.checkLogin, invController.buildBuyByInvId);
+
+// Route for purchase requests
+router.post("/buy/", utilities.checkLogin, invController.buyInventoryItem);
+
 module.exports = router;

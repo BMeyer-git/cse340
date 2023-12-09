@@ -1,5 +1,8 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
+const accountModel = require("../models/account-model")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 const invCont = {}
 
@@ -342,6 +345,72 @@ invCont.deleteInventoryItem = async function (req, res, next) {
     inv_miles,
     inv_color,
     classification_id
+    })
+  }
+}
+
+/* ***************************
+ *  Build inventory details by id
+ * ************************** */
+invCont.buildBuyByInvId = async function (req, res, next) {
+  const inv_id = req.params.invId
+  const vehicle = await invModel.getDetailByInvId(inv_id)
+  const buy = await utilities.buildBuyView(vehicle, res.locals.accountData.account_id)
+  let nav = await utilities.getNav()
+  let header = await utilities.getHeader(req, res)
+  const vehicleName = vehicle.inv_make + " " + vehicle.inv_model
+  res.render("./inventory/buy-inventory", {
+    title: "Purchase Confirmation for " + vehicleName,
+    nav,
+    header,
+    buy,
+    errors: null,
+  })
+}
+
+/* ****************************************
+*  Purchase a vehicle
+* *************************************** */
+invCont.buyInventoryItem = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  let header  = await utilities.getHeader(req, res)
+  let name = res.locals.account_name
+  let accountType = res.locals.account_type
+  let accountId = res.locals.accountData.account_id
+  const {inv_id} = req.body
+  const account = res.locals.accountData
+  const purchaseResult = await invModel.buyInventoryItem(inv_id, account)
+
+  if (purchaseResult) {
+    // Potentially redefine header here if funds are to be displayed there too
+    //req.res.locals.accountData.account_wallet = purchaseResult
+    res.locals.accountData.account_wallet = purchaseResult
+    let funds = purchaseResult
+    req.flash("notice", `The vehicle was successfully purchased.`)
+    res.status(201).render("account/account",
+    {
+      title: "Account Management",
+      nav,
+      header,
+      funds,
+      name,
+      accountType,
+      errors: null
+    })
+  } else {
+    header  = await utilities.getHeader(req, res)
+    let name = res.locals.accountData.account_firstname
+    let funds = await accountModel.getAccountWallet(accountId)
+    req.flash("notice", "Sorry, the purchase failed. Do you have enough funds?")
+    res.status(501).render("account/account", {
+    title: "Account Management",
+    nav,
+    header,
+    name,
+    accountType,
+    accountId,
+    funds,
+    errors: null,
     })
   }
 }

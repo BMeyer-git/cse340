@@ -125,4 +125,58 @@ async function deleteInventoryItem(inv_id){
   }
 }
 
-module.exports = {getClassifications, getClassificationName, getInventoryByClassificationId, getDetailByInvId, addClassification, addInventory, updateInventory, deleteInventoryItem};
+/* *****************************
+*   Remove funds from a user
+* *************************** */
+async function setWalletBalance(account_id, amount){
+  try {
+    const sql =
+    "UPDATE public.account SET account_wallet = $1 WHERE account_id = $2 RETURNING *"
+    const data = await pool.query(sql, [
+    amount,
+    account_id
+  ])
+    return data
+  } catch (error) {
+    console.error("wallet Balance error: " + error)
+  }
+}
+
+/* *****************************
+*   purchase a vehicle
+* *************************** */
+async function buyInventoryItem(inv_id, account){
+  try {
+    // Add vehicle to user's personal inventory, then delete from the main inventory
+    vehicle = await getDetailByInvId(inv_id)
+    if (vehicle.inv_price <= account.account_wallet)
+    {
+      // Remove funds
+      await setWalletBalance(account.account_id, (account.account_wallet - vehicle.inv_price))
+      // Remove vehicle from general inventory
+      const sql =
+      "DELETE FROM inventory WHERE inv_id = $1"
+      const data = await pool.query(sql, [
+      inv_id
+    ])
+      if (data)
+      {
+        newBalance = account.account_wallet - vehicle.inv_price;
+        return newBalance
+      }
+      else
+      {
+        return data
+      }
+    }
+    else
+    {
+      return null
+    }
+
+  } catch (error) {
+    console.error("Purchase Inventory error: " + error)
+  }
+}
+
+module.exports = {getClassifications, getClassificationName, getInventoryByClassificationId, getDetailByInvId, addClassification, addInventory, updateInventory, deleteInventoryItem, buyInventoryItem};
